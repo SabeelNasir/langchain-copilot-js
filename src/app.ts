@@ -1,6 +1,7 @@
 import "dotenv/config";
 
 import express from "express";
+import morgan from "morgan";
 import router from "./routes/index.js";
 import { MongoDataSource } from "./database/mongo-datasource.js";
 
@@ -17,6 +18,7 @@ const app = express();
 
 // middleware
 app.use(express.json());
+app.use(morgan("dev"));
 
 app.use("/api", router);
 

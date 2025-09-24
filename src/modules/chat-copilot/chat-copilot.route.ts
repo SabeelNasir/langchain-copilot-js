@@ -4,8 +4,8 @@ import {
   type Response,
   type RouterOptions,
 } from "express";
-import { AIModelService } from "../services/ai-model-api.service.js";
-import { validateChatCopilotRequest } from "./chat-copilot/route-middleware.js";
+import { AIModelService } from "../ai-models/ai-model-api.service.js";
+import { validateChatCopilotRequest } from "./route-middleware.js";
 import { randomUUID } from "crypto";
 
 // const router = Router();

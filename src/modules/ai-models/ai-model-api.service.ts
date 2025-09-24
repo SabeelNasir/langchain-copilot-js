@@ -1,5 +1,5 @@
 import { ChatGroq } from "@langchain/groq";
-import { EnvConfig } from "../config/env-config.js";
+import { EnvConfig } from "../../config/env-config.js";
 import {
   HumanMessage,
   SystemMessage,
@@ -13,28 +13,25 @@ export class AIModelService {
   private sessionId: string;
   private maxTokensAllowed: number = EnvConfig.chatModelMaxTokens;
 
-  constructor(sessionId: string) {
+  constructor(sessionId: string, agentModel: string) {
     this.sessionId = sessionId;
     this.model = new ChatGroq({
-      model: EnvConfig.chatModel,
+      model: agentModel || EnvConfig.chatModel,
       apiKey: EnvConfig.groqApiKey,
       temperature: 0,
       maxTokens: this.maxTokensAllowed,
     });
-    this.memory = new AIChatMemoryService(sessionId);
+    this.memory = new AIChatMemoryService(this.sessionId);
   }
 
-  async invoke(prompt: string): Promise<AIMessageChunk> {
+  async invoke(
+    prompt: string,
+    systemMessage?: string
+  ): Promise<AIMessageChunk> {
     const systemPrompt = new SystemMessage(
-      "You are helpful AI Assistant, keep very concise."
+      systemMessage || "You are helpful AI Assistant, keep very concise."
     );
     const history = await this.memory.getMessages();
-
-    // const fullPrompt = [
-    //   ...history.map((msg) => `${msg.getType()}: ${msg.content}`),
-    //   `human: ${prompt}`,
-    //   "ai:",
-    // ].join("\n");
 
     const response: AIMessageChunk = await this.model.invoke([
       systemPrompt,

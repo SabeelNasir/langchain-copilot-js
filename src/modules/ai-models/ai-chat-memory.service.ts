@@ -1,14 +1,14 @@
 import { BaseCache } from "@langchain/core/caches";
 import { BaseChatMessageHistory } from "@langchain/core/chat_history";
 import type { Repository } from "typeorm";
-import { MongoDataSource } from "../database/mongo-datasource.js";
-import { ChatMessageEntity } from "../database/entities/mongodb/chat-message.entity.js";
+import { MongoDataSource } from "../../database/mongo-datasource.js";
+import { ChatMessageEntity } from "../../database/entities/mongodb/chat-message.entity.js";
 import {
   AIMessage,
   HumanMessage,
   type BaseMessage,
 } from "@langchain/core/messages";
-import { EnvConfig } from "../config/env-config.js";
+import { EnvConfig } from "../../config/env-config.js";
 
 export class AIChatMemoryService extends BaseChatMessageHistory {
   lc_namespace: string[] = [];
