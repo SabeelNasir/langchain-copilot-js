@@ -1,7 +1,8 @@
-import { Router } from "express";
+import { Router, type Request, type Response } from "express";
 import { AIAgentsService } from "./ai-agents.service.js";
 import { validateAIAgent } from "./validation.middleware.js";
 import { AIModelService } from "../ai-models/ai-model-api.service.js";
+import { asyncHandler } from "../../utils/route-async-handler.js";
 
 const router = Router();
 const service = new AIAgentsService();
@@ -17,10 +18,12 @@ router.post("/", validateAIAgent, async (req, res) => {
 });
 
 // Read all
-router.get("/", async (_req, res) => {
-  const agents = await service.findAll();
-  res.json(agents);
-});
+router.get(
+  "/",
+  asyncHandler(() => {
+    return service.findAll();
+  })
+);
 
 // Read one
 router.get("/:id", async (req, res) => {

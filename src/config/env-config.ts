@@ -8,4 +8,5 @@ export const EnvConfig = {
     uri: process.env.MONGO_URI!,
     db: process.env.MONGO_DB!,
   },
+  weatherApiKey: process.env.WEATHER_API_KEY
 };

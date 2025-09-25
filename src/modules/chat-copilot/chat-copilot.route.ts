@@ -7,6 +7,7 @@ import {
 import { AIModelService } from "../ai-models/ai-model-api.service.js";
 import { validateChatCopilotRequest } from "./route-middleware.js";
 import { randomUUID } from "crypto";
+import { AIModelV2Service } from "../ai-models/ai-model-v2.service.js";
 
 // const router = Router();
 
@@ -28,7 +29,7 @@ export class ChatCopilot {
       validateChatCopilotRequest,
       async (req: Request, res: Response) => {
         try {
-          const service = new AIModelService(
+          const service = new AIModelV2Service(
             req.headers["x-session-id"]?.toString()!
           );
           const { prompt } = req.body;
@@ -38,8 +39,9 @@ export class ChatCopilot {
           const response = await service.invoke(prompt);
           res.json({
             content: response.content,
-            usage: response.usage_metadata,
+            usage: response.response_metadata,
           });
+          // res.json(response);
         } catch (error) {
           res.status(500).json({ error: (error as Error).message });
         }
