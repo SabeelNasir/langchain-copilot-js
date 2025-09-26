@@ -32,17 +32,19 @@ export class ChatCopilot {
           const service = new AIModelV2Service(
             req.headers["x-session-id"]?.toString()!
           );
+          await service.init();
           const { prompt } = req.body;
           if (!prompt) {
             return res.status(400).json({ error: "Prompt is required" });
           }
           const response = await service.invoke(prompt);
-          res.json({
-            content: response.content,
-            usage: response.response_metadata,
-          });
-          // res.json(response);
+          // res.json({
+          //   content: response.content,
+          //   usage: response.response_metadata,
+          // });
+          res.json(response);
         } catch (error) {
+          console.log("error", error);
           res.status(500).json({ error: (error as Error).message });
         }
       }

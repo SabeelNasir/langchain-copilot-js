@@ -18,7 +18,7 @@
     "@langchain/core": "^0.3.77",
     "@langchain/groq": "^0.2.4",
     "@langchain/langgraph": "^0.4.9",
-    "@modelcontextprotocol/sdk": "^1.18.1",
+    "@modelcontextprotocol/sdk": "^1.18.2",
     "ai": "^5.0.52",
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",

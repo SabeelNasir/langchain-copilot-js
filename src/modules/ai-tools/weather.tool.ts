@@ -2,10 +2,11 @@
 import { tool } from "@langchain/core/tools";
 import fetch from "node-fetch";
 import z from "zod";
+import { EnvConfig } from "../../config/env-config.js";
 
 export const WeatherTool = tool(
   async ({ city }): Promise<string> => {
-    const apiKey = "97c02b3147bfa0e9ef6341f39b8a4168"; // put your key in .env
+    const apiKey = EnvConfig.weatherApiKey; // put your key in .env
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(
       city
     )}&units=metric&appid=${apiKey}`;

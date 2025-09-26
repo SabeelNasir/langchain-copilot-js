@@ -27,5 +27,5 @@ export const MughalFoodCategoriesTool = tool(
 );
 
 // Example usage
-const result = await MughalFoodCategoriesTool.invoke({});
-console.log("tool-result", result);
+// const result = await MughalFoodCategoriesTool.invoke({});
+// console.log("tool-result", result);
