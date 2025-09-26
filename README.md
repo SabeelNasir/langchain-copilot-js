@@ -84,6 +84,21 @@ npm run dev
 
 ---
 
+### 5. MCP Servers Setup
+
+  - mcb-dbs server: 
+    ```bash
+    npm install -g mcp-dbs
+    ```
+  - spin up mcp-dbs server for postgres,mysql,sql,sqllite databases tools:
+      ```bash
+      npx mcp-dbs --port 3011 --connectionId mydb --connection "postgresql://DB_USER:DB_PASS@localhost:5432/DB_NAME"
+      ```
+  - mcp-dbs TOOLs: 
+    ```bash
+    connect-database, execute-query, disconnect-datbase
+    ```
+
 ## Project Structure
 
 - `src/app.ts` – Express app entrypoint, MongoDB initialization
