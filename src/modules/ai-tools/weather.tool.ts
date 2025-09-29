@@ -5,10 +5,10 @@ import z from "zod";
 import { EnvConfig } from "../../config/env-config.js";
 
 export const WeatherTool = tool(
-  async ({ city }): Promise<string> => {
+  async ({ location }): Promise<string> => {
     const apiKey = EnvConfig.weatherApiKey; // put your key in .env
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(
-      city
+      location
     )}&units=metric&appid=${apiKey}`;
 
     const res = await fetch(url);
@@ -16,13 +16,13 @@ export const WeatherTool = tool(
       throw new Error(`Weather API error: ${res.statusText}`);
     }
     const data = await res.json();
-    return `The weather in ${city} is ${data.weather[0].description}, temperature ${data.main.temp}°C.`;
+    return `The weather in ${location} is ${data.weather[0].description}, temperature ${data.main.temp}°C.`;
   },
   {
     name: "get_weather",
-    description: "Fetches current weather for a given city.",
+    description: "Fetches current weather for a location requested by user.",
     schema: z.object({
-      city: z.string().describe("The city to get the weather for"),
+      location: z.string().describe("The location to get the weather for"),
     }),
   }
 );

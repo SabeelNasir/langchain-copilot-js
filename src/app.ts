@@ -2,13 +2,14 @@ import "dotenv/config";
 
 import express from "express";
 import morgan from "morgan";
-import router from "./routes/index.js";
 import { MongoDataSource } from "./database/mongo-datasource.js";
 import { responseHandlerMiddleware } from "./middlewares/response-handler.js";
 import { errorResponesHandler } from "./middlewares/error-handler.js";
+import router from "./routes/routes.js";
+import cors from "cors";
 
 // Initialize mongodb
-await MongoDataSource.initialize()
+MongoDataSource.initialize()
   .then(() => {
     console.log("Mongodb connected via Typeorm");
   })
@@ -20,6 +21,7 @@ const app = express();
 
 // middleware
 app.use(express.json());
+app.use(cors());
 app.use(morgan("dev"));
 app.use(responseHandlerMiddleware);
 

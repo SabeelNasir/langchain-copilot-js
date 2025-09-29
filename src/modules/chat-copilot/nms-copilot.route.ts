@@ -1,21 +1,9 @@
-import {
-  Router,
-  type Request,
-  type Response,
-  type RouterOptions,
-} from "express";
-import { AIModelService } from "../ai-models/ai-model-api.service.js";
+import { Router, type Request, type Response } from "express";
 import { validateChatCopilotRequest } from "./route-middleware.js";
-import { randomUUID } from "crypto";
 import { AIModelV2Service } from "../ai-models/ai-model-v2.service.js";
+import { MonitoringSystemAIAgent } from "../ai-agents/monitoring-system-ai-agent.js";
 
-// const router = Router();
-
-// router.get("/chat", async (req: Request, res: Response) => {
-//         const svcResp =
-// });
-
-export class ChatCopilot {
+export class NMSStatsCopilotRoutes {
   public router: Router;
   constructor() {
     this.router = Router();
@@ -26,16 +14,16 @@ export class ChatCopilot {
   private initializeRoutes() {
     this.router.post(
       "/",
-      validateChatCopilotRequest,
+      // validateChatCopilotRequest,
       async (req: Request, res: Response) => {
         try {
           const sessionId = new Date().getTime().toString();
-          const service = new AIModelV2Service(sessionId);
+          const service = new MonitoringSystemAIAgent(sessionId);
           await service.init();
           const { prompt } = req.body;
-          if (!prompt) {
-            return res.status(400).json({ error: "Prompt is required" });
-          }
+          // if (!prompt) {
+          //   return res.status(400).json({ error: "Prompt is required" });
+          // }
           const response = await service.invoke(prompt);
           res.json({ sessionId, response });
         } catch (error) {
@@ -50,7 +38,7 @@ export class ChatCopilot {
       async (req: Request, res: Response) => {
         try {
           const sessionId = req.params.sessionId;
-          const service = new AIModelV2Service(sessionId);
+          const service = new MonitoringSystemAIAgent(sessionId);
           await service.init();
           const { prompt } = req.body;
           if (!prompt) {

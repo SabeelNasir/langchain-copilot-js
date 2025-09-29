@@ -3,6 +3,7 @@ import { DataSource } from "typeorm";
 import { EnvConfig } from "../config/env-config.js";
 import { ChatMessageEntity } from "./entities/mongodb/chat-message.entity.js";
 import { AIAgentsEntity } from "./entities/mongodb/ai-agents.entity.js";
+import { MongoClient } from "mongodb";
 
 export const MongoDataSource = new DataSource({
   url: EnvConfig.mongoDB.uri,
@@ -12,3 +13,5 @@ export const MongoDataSource = new DataSource({
   logging: false,
   entities: [ChatMessageEntity, AIAgentsEntity],
 });
+
+export const mongoClient = new MongoClient(EnvConfig.mongoDB.uri);
