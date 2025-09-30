@@ -18,6 +18,7 @@ import {
   ChatPromptTemplate,
   MessagesPlaceholder,
 } from "@langchain/core/prompts";
+import { CallbackManagerForLLMRun } from "@langchain/core/callbacks/manager";
 
 const handler = new ConsoleCallbackHandler();
 
@@ -86,7 +87,7 @@ export class LanggraphNMSSystemAIAgentWorkflow {
         prefix your response with FINAL ANSWER so the team knows to stop. 
         You have access to the following tools: {tool_names}.\n{system_message}\nCurrent time: {time}.`,
         ],
-        new MessagesPlaceholder("messsages"),
+        new MessagesPlaceholder("messages"),
       ]);
       const formattedPrompt = await prompt.formatMessages({
         system_message:

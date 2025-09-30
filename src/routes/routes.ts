@@ -4,6 +4,7 @@ import { UserRoutes } from "../modules/users/user-routes.js";
 import { AIAgentsRouter } from "../modules/ai-agents/ai-agents.route.js";
 import { NMSStatsCopilotRoutes } from "../modules/chat-copilot/nms-copilot.route.js";
 import { NMSStatsWorkflowCopilotRoutes } from "../modules/chat-copilot/nms-langgraph-workflow.route.js";
+import CodingAgentRouter from "../modules/ai-agents/coding-agent/coding-agent.route.js";
 
 const router = Router();
 
@@ -25,5 +26,8 @@ router.use(
   "/nms-copilot-langgraph-workflow",
   nmsLanggraphStatefulWorkflowRoutes.router
 );
+
+// Coding Agent Chat Routes
+router.use("/coding-agent", CodingAgentRouter);
 
 export default router;

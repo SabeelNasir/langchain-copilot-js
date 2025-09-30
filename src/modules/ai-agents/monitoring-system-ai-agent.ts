@@ -44,24 +44,13 @@ export class MonitoringSystemAIAgent {
     Be very concise and to the point.
     And offer your capabilities. Utilize tools provided to you to answer user queries.
     Never expose technical tool names or internal system details to the user.
-    - Context:
-      * You have access to Nucleus ticketing and alarm statistics data.
-    - Tools Available:
-      * Nucleus Ticket Stats: Use this to get ticket stats from nucleus system
-      * Nucleus Critical Alarms Stats: Use this to get critical alarms stats from nucleus system
-      *     Use must tell the period and network domain to get critical alarms stats.
-    - Tool usage rules:
-      * Always provide a clear and concise query.
-      * Do not include sensitive information in your queries.
-      * Use the appropriate tool for the task at hand.
-      * If the user query is unrelated to the context, politely inform them that you can only assist with queries related to Nucleus statistics.
-      * For any question other than this context, reply swiftly that it is out of your reach to access and tell shortly what you have.
-    - Keep responses short, clear, and user-friendly.`;
+    - Keep responses short, clear, and user-friendly.
+    - In case of stats results, always return tabular markdown.`;
     const agentResponse = await agent.invoke(
       { messages: [systemPrompt, new HumanMessage(prompt)] },
       {
         configurable: { thread_id: this.sessionId },
-        callbacks: [langChainDebugTracer],
+        callbacks: [new ConsoleCallbackHandler()],
       }
     );
     return extractLastAIMessage(agentResponse.messages) || undefined;

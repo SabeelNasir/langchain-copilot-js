@@ -1,9 +1,5 @@
+import "dotenv/config";
 import { ActiveLLMCompany } from "./enum";
-
-interface IEnvConfig {
-  [key: string]: any;
-  activeLLMCompany: ActiveLLMCompany;
-}
 
 export const EnvConfig = {
   port: process.env.PORT!,

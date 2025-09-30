@@ -7,6 +7,7 @@ export const errorResponesHandler = (
   res: Response,
   next: NextFunction
 ) => {
+  console.log("ERROR: ", err);
   res.status(err.status || StatusCodes.INTERNAL_SERVER_ERROR).json({
     status: false,
     error: {

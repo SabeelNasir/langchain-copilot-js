@@ -3,22 +3,36 @@
 import { tool } from "@langchain/core/tools";
 import z from "zod";
 import { EnvConfig } from "../../config/env-config";
+import https from "https";
+import axios, { HttpStatusCode } from "axios";
+
+const agent = new https.Agent({
+  rejectUnauthorized: false, // OR better: pass a custom CA here
+});
+
+// Set Axios defaults
+axios.defaults.baseURL = EnvConfig.nucleusDemoCredentails.apiHost;
+axios.defaults.headers.common[
+  "Authorization"
+] = `Bearer ${EnvConfig.nucleusDemoCredentails.apiToken}`;
+axios.defaults.httpsAgent = agent;
 
 export const NucleusTicketStatsTool = tool(
   async (): Promise<string> => {
-    console.log("Fetching ticket stats from Nucleus API...");
-    const url = `http://47.128.201.248:3000/trouble-ticket-dashboard/network-wise-departmental-stats`;
-    const resp = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${EnvConfig.nucleusDemoCredentails.apiToken}`,
-      },
-    });
-    if (!resp.ok) {
-      throw new Error("Error in fetching ticket stats");
+    try {
+      console.log("Fetching ticket stats from Nucleus API...");
+      const url = `trouble-ticket-dashboard/network-wise-departmental-stats`;
+      const resp = await axios.get(url);
+      if (resp.status !== HttpStatusCode.Ok) {
+        console.log("Tool API Error:", resp.data);
+        throw new Error("Error in fetching ticket stats");
+      }
+      console.log("URL Called: ", url);
+      const data = await resp.data;
+      return JSON.stringify(data);
+    } catch (err) {
+      console.log("Tool API Exception:", err);
     }
-    console.log("URL Called: ", url);
-    const data = await resp.json();
-    return JSON.stringify(data);
   },
   {
     name: "get_tickets_stats",
@@ -29,19 +43,20 @@ export const NucleusTicketStatsTool = tool(
 
 export const NucleusCriticalAlarmsStats = tool(
   async ({ selected_network, selected_period }): Promise<string> => {
-    console.log("Fetching critical alarms stats from Nucleus API...");
-    const url = `http://47.128.201.248:3000/dashboard-stats/counts/${selected_network}?period=${selected_period}&status=uncleared`;
-    const resp = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${EnvConfig.nucleusDemoCredentails.apiToken}`,
-      },
-    });
-    if (!resp.ok) {
-      throw new Error("Error in fetching ticket stats");
+    try {
+      console.log("Fetching critical alarms stats from Nucleus API...");
+      const url = `dashboard-stats/counts/${selected_network}?period=${selected_period}&status=uncleared`;
+      const resp = await axios.get(url);
+      if (resp.status !== HttpStatusCode.Ok) {
+        console.log("Tool API Error:", resp.data);
+        throw new Error("Error in fetching ticket stats");
+      }
+      console.log("URL Called: ", url);
+      const data = await resp.data;
+      return JSON.stringify(data);
+    } catch (err) {
+      console.log("Tool API Exception:", err);
     }
-    console.log("URL Called: ", url);
-    const data = await resp.json();
-    return JSON.stringify(data);
   },
   {
     name: "get_critical_alarms_stats",

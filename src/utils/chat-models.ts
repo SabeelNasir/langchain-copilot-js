@@ -2,7 +2,6 @@ import { ChatOpenAI } from "@langchain/openai";
 import { ActiveLLMCompany } from "../config/enum";
 import { EnvConfig } from "../config/env-config";
 import { ChatGroq } from "@langchain/groq";
-import { langChainDebugTracer } from "./langchain-debug-tracer";
 
 /**
  *  Initiate and return chat model instance based on active LLM company configuration.
@@ -18,7 +17,7 @@ export const initiateChatModels = () => {
   } else if (EnvConfig.activeLLMCompany === ActiveLLMCompany.OPENAI) {
     return new ChatOpenAI({
       apiKey: EnvConfig.openApiKey,
-      model: "gpt-4o-2024-08-06",
+      model: "gpt-5-2025-08-07",
       temperature: 1,
     });
   }
